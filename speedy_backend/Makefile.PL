@@ -29,6 +29,10 @@ sub clean_files_full_extra {'xsinit'}
 sub am_frontend {0}
 sub my_name {'backend'}
 
+sub remove_libs { my $class = shift;
+    'BIN=speedy_backend ../util/remove_libs';
+}
+
 use ExtUtils::Embed;
 
 my $tmp = "xsinit.tmp$$";

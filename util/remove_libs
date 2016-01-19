@@ -3,7 +3,11 @@
 # Remove extranaeous libs from the linking command.  Reduces shared-library
 # overhead at exec time.
 
-BIN=speedy
+# allow testing other binaries too
+if [ "x$BIN" = "x" ]
+then
+	BIN=speedy
+fi
 TMP1=/tmp/remove_libs$$
 TMP2="${TMP1}2"
 
