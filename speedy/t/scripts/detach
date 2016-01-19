@@ -1,3 +1,6 @@
 $| = 1;
+# the data should not fit in the socket write buffer
+# see http://bugs.debian.org/584344
+my $size = shift || (512 * 1024);
 print "$$\n";
-print 'x' x (500*1024);
+print 'x' x int(500 / 512 * $size);

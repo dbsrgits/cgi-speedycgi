@@ -6,9 +6,22 @@
 
 use strict;
 use IO::File;
+use Socket;
 
 my $smbuf	=   8 * 1024;
-my $lgbuf	= 512 * 1024;
+my $lgbuf;
+
+# find out the size of the socket write buffer
+# see http://bugs.debian.org/584344
+my $s;
+if (socket($s, AF_UNIX, SOCK_STREAM, 0) &&
+    (my $packed_size = getsockopt($s, SOL_SOCKET, SO_SNDBUF))) {
+    $lgbuf = $smbuf + 2 * unpack("I", $packed_size);
+} else {
+    warn("socket() or getsockopt() failed: $!");
+}
+
+$lgbuf = 512 * 1024 if $lgbuf < 512 * 1024;
 my $scr		= 't/scripts/detach';
 
 use vars qw(@open_files @pids %children);
@@ -23,7 +36,7 @@ sub doit { my $sz = shift;
     $| = 1; print ""; $| = 0;
     my $child;
     if (($child = open($fh, "-|")) == 0) {
-	open(F, "$ENV{SPEEDY} -- -B$sz $scr |");
+	open(F, "$ENV{SPEEDY} -- -B$sz $scr $lgbuf |");
 	print scalar <F>;
 	close(STDOUT);
 	sleep 60;	# Simulate slow drain of output
