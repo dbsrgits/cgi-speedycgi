@@ -9,7 +9,7 @@ sleep 1;
 my $cmd = "exec $ENV{SPEEDY} -- -M1 $scr </dev/null |";
 
 my $pid = open (RUN1, $cmd);
-sleep(1);
+sleep(3);
 kill(9, $pid);
 wait;
 open (RUN2, $cmd);
