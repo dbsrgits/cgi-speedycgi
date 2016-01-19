@@ -34,9 +34,9 @@ WriteMakefile(
     VERSION_FROM	=> 'src/SpeedyCGI.src',
     EXE_FILES		=> [qw(speedy/speedy speedy_backend/speedy_backend)],
     CONFIGURE		=> sub { return {DIR=>\@dirs} },
-    PM			=> {'src/SpeedyCGI.pm'=>'$(INST_LIBDIR)/SpeedyCGI.pm'},
+    # PM			=> {'src/SpeedyCGI.pm'=>'$(INST_LIBDIR)/SpeedyCGI.pm'},
     MAN1PODS		=> {},
-    MAN3PODS		=> {},
+    # MAN3PODS		=> {},
     dist		=> {DIST_DEFAULT => 'mydist'},
     realclean		=> {FILES => 'README README.html lib'},
     %write_makefile_common
